@@ -115,6 +115,7 @@
 
 ;;;_. =====================================================================
 ;;;_. load the customize configurations files
+(require 'emacs-bm)        ; bookmark enhancements
 (require 'emacs-calendar)  ; calendar settings
 (require 'emacs-bbdb)      ; big-brother database
 (require 'emacs-bs)        ; buffer switch setting

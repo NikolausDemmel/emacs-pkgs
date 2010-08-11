@@ -14,6 +14,7 @@
 ;;;_.======================================================================
 ;;;_. magit git interface
 (require 'magit)
+(global-set-key "\C-xg" 'magit-status)
 
 ;;;_.======================================================================
 ;;;_. egg git interface, enhanced magit interface with EDIFF!!!
