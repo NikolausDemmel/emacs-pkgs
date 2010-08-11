@@ -1,0 +1,600 @@
+;;; -*-mode: Lisp-*-
+
+;;;======================================================================
+;;;; load the vm mail config in the .emacs. If it's done here, a
+;;;; circular condition exists where the configuration file read in by
+;;;; vm on loading also causes vm to load
+;;;======================================================================
+
+
+;;;======================================================================
+;;; save all mail messages in unix format to avoid messing up the mail
+;;; box with mixed dos/unix line endings
+;;;======================================================================
+(modify-coding-system-alist
+ 'file (concat "^" MAIL_DIR) 'raw-text-unix)
+
+;;;======================================================================
+;;; Turn on filladapt and auto-fill for reply messages
+;;;======================================================================
+(add-hook 'mail-mode-hook '(lambda () (setq fill-column 70)))
+(add-hook 'mail-mode-hook 'turn-on-filladapt-mode)
+(add-hook 'mail-mode-hook 'turn-on-auto-fill)
+(add-hook 'vm-message-mode-hook '(lambda () (setq fill-column 70)))
+(add-hook 'vm-message-mode-hook 'turn-on-filladapt-mode)
+(add-hook 'vm-message-mode-hook 'turn-on-auto-fill)
+
+;;;========================================================================
+;;; Settings to hook into various mail server
+;;; formats, POP and IMAP so far...
+;;;========================================================================
+;;; test the value of my_mail_format (defined in .emacs) for either
+;;; imap or pop and set the format appropriately
+(cond
+ ;; case "pop"
+((string-equal my_mail_format "pop")
+  (setq vm-spool-files
+	 (list
+	  (concat "pop:"my_mail_server":"(number-to-string my_pop_port)":pass:"my_email_address":*")
+	  )))
+
+;; case "imap"
+;; be aware that this just spools your IMAP email to your inbox,
+((string-equal my_mail_format "imap")
+  (setq vm-spool-files
+	 (list
+	  (concat "imap:"my_imap_server":"(number-to-string my_imap_port)":inbox:login:mcmahan.cb:*"))))
+
+ ;; case spool file mounted from unix
+((string-equal my_mail_format "spool")
+  (setq vm-spool-files (list my_mail_spool)))
+
+ ;; default : (t
+ (setq vm-spool-files "error"))
+
+;;;========================================================================
+;;; POP settings
+;;;========================================================================
+;;; leave the mail on the server (nil)
+(setq vm-pop-expunge-after-retrieving t)
+
+;;;========================================================================
+;;; IMAP settings
+;;;========================================================================
+(setq
+  vm-imap-max-message-size nil
+  vm-imap-messages-per-session nil
+  vm-imap-bytes-per-session nil
+  vm-recognize-imap-maildrops "^imap:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+:[^:]+"
+  vm-auto-get-new-mail t
+  vm-mail-check-interval nil
+)
+
+;;; leave the mail on the server (nil)
+(setq vm-imap-expunge-after-retrieving nil)
+
+;;;========================================================================
+;;; various settings to get to the mail files
+;;; and folders
+;;;========================================================================
+(setq
+  vm-folder-directory     (concat MAIL_DIR "/")
+  vm-primary-inbox        "mbox"
+  vm-crash-box            (concat MAIL_DIR "/crash")
+)
+
+;;; set the sent files folder to the archive subdirectory, year folder
+;;; For example: ~/Mail/archive/sent/2005/sent07-05
+;;; Note: if the directory for the year does not already exist, this
+;;; will choke
+(setq mail-archive-file-name 
+      (concat MAIL_DIR "/" 
+              (format-time-string "%Y" (current-time)) "/sent"
+              (format-time-string "%m-%y" (current-time))))
+
+;;; to prevent emacs from automatically creating a new window for VM,
+;;; set these values to nil
+(setq vm-frame-per-folder nil)
+(setq vm-frame-per-composition nil)
+
+
+;;;========================================================================
+;;; traversing the summary buffer faster and avoid the text/html slowdown
+;;;========================================================================
+;;; from a suggestion by Kyle Jones on vm.info
+(setq vm-preview-lines 0)
+(setq vm-preview-read-messages t)
+
+;;; Turn off MIME deocding during previewing.
+(setq vm-mime-decode-for-preview nil)
+
+;;; setting to t will slow down message traversal within the
+;;; summary. Setting to nil will force you to manually decode
+;;; mime attachments (vm-decode-mime-message, bound to D) on the
+;;; message
+(setq vm-auto-decode-mime-messages t)
+
+
+;;;========================================================================
+;;; prevent .vm from trying to open an ssh tunnel to the server
+;;;========================================================================
+(setq vm-ssh-program nil)
+
+;;;;========================================================================
+;;;; modify the URL regexp to include URL's without the leading http://
+;;;;========================================================================
+;;(setq vm-url-regexp  "<URL:\\([^>\n]+\\)>\\|\\(\\(\\(file\\|ftp\\|gopher\\|http\\|https\\|news\\|wais\\|www\\)://\\|www\\.\\)[^ \t\n\f\r\"<>|()]*[^ \t\n\f\r\"<>|.!?(){}]\\)\\|\\(mailto:[^ \t\n\f\r\"<>|()]*[^ \t\n\f\r\"<>|.!?(){}]\\)\\|\\(file:/[^ \t\n\f\r\"<>|()]*[^ \t\n\f\r\"<>|.!?(){}]\\)")
+;
+;;;========================================================================
+;;; remap the # key to expunge messages. Newer versions of vm require ###
+;;;========================================================================
+(define-key vm-mode-map "#" 'vm-expunge-folder)
+
+;;;========================================================================
+;;; Don't leave backup folders lying around for prying eyes:
+;;;========================================================================
+(add-hook 'vm-mode-hook
+	  (lambda ()
+	    (set (make-local-variable 'backup-inhibited) t)))
+
+;;;========================================================================
+;; VM Setup
+;;;========================================================================
+(setq
+ mail-signature-file             (concat EMACS_PKGS "/.signature")
+ vm-auto-center-summary          t
+ vm-auto-folder-case-fold-search t
+ vm-auto-next-message            t
+ vm-berkeley-mail-compatibility  nil
+ vm-circular-folders             nil
+ vm-confirm-new-folders          t
+ vm-delete-after-archiving       t
+ vm-delete-after-bursting        t
+ vm-delete-after-saving          t
+ vm-delete-empty-folders         t
+ vm-expunge-when-saving-folder   nil
+ vm-folder-name-in-summary       t
+ vm-follow-summary-cursor        t
+ vm-forwarding-subject-format    "[%F: %s]"
+ vm-included-text-prefix         ">"
+ vm-index-file-suffix            nil
+ vm-keep-sent-messages           t
+ vm-mail-header-from             (concat my_full_name " <"my_email_address">")
+ vm-mosaic-program               "dired-mswindows-command()"
+ vm-move-after-deleting          t
+ vm-mutable-windows              t
+ vm-preview-lines                nil
+ vm-reply-subject-prefix         "Re: "
+ vm-retain-message-order         t
+ vm-startup-with-summary         t
+ vm-strip-reply-headers          nil
+ vm-temp-file-directory          (concat HOME_DIR "/download/")
+ vm-thread-indent-level          2
+ vm-visit-when-saving            0
+)
+
+(setq vm-visible-headers
+'("From:" "To:" "Subject:" "Date:" "Message-ID:"))
+
+;;;======================================================================
+;;; returns the number of attachments to a mail message
+;;;======================================================================
+(defun vm-summary-number-of-attachments (message)
+  "Return the number of MIME attachments in MESSAGE, as a string.
+Text attachments are not counted."
+  (let* ((layout (vm-mm-layout message))
+	 (parts-count 0)
+	 (layout-parts
+	  (if (eq layout 'none)
+	      nil
+	    (vm-mm-layout-parts layout))))
+    (while layout-parts
+      (if (not (vm-mime-types-match "text" (car (vm-mm-layout-type (car layout-parts)))))
+	  (setq parts-count (1+ parts-count)))
+      (setq layout-parts (cdr layout-parts)))
+    (if (= parts-count 0)
+	""
+      (concat "#" (int-to-string parts-count)))))
+
+(defalias 'vm-summary-function-X 'vm-summary-number-of-attachments)
+;(setq vm-summary-format "%n %*%a %-17.17F %-3.3m %2d %6l/%-7c%4UX %I\"%s\"\n")
+
+
+;;;======================================================================
+;;; returns the size of the message as bytes, Kbytes, or MBytes
+;;;======================================================================
+(defun vm-summary-function-S (stru)
+  (let ( ret (size (- (point-max) (point-min))))
+    (cond
+     ((< size 1024)
+      (setq size (* (/ size 100) 100))
+      (format "%4d" size))
+     ((< size 1048576)
+      (setq size (/ size 1024))
+      (setq ret (format "%3dK" size))
+      (add-text-properties 0 (length ret) '(face bold) ret)
+      ret)
+     (t
+      (setq size (/ size 1048576))
+      (setq ret (format "%3dM" size))
+      (add-text-properties 0 (length ret) '(face red) ret)
+      ret))))
+
+(setq vm-summary-format "%3n.%* %a %2M/%2d | %-23.23F %I%-60.60s %US %UX\n")
+
+;;;======================================================================
+;;; display the to address on sent mail, since the from is
+;;; uninteresting in this case
+;;;======================================================================
+(setq vm-summary-uninteresting-senders
+      (concat
+       (regexp-quote my_email_address) "\\|"
+       (regexp-quote "cmcmahan@gmail.com") "\\|"
+       (regexp-quote "mcmahan.cb@gmail.com") "\\|"
+       (regexp-quote "proctoid@gmail.com") "\\|"
+       (regexp-quote "Chris McMahan")
+       ))
+
+(setq vm-summary-uninteresting-senders-arrow "To: ")
+
+;;; leave me off of replies to all
+(setq vm-reply-ignored-addresses
+    '("Chris\\ McMahan"
+      "cmcmahan@one\\.net"))
+
+;; disable the highlighting of summary entries when the mouse
+;; pointer passes over them.
+(setq vm-mouse-track-summary nil)
+
+;;; automatically insert the signature at the end of the message (t)
+;;; Must be nil if you are using the package pcrisis to automatically
+;;; set up the headers based on the message being responded to
+(setq mail-signature t)
+
+;;;========================================================================
+;;; mime encoder and decoder program assignment
+;;;========================================================================
+(setq vm-mime-base64-decoder-program
+	  (concat EMACS_PKGS "/bin/base64-decode.exe"))
+
+(setq vm-mime-base64-encoder-program
+	  (concat EMACS_PKGS "/bin/base64-encode.exe"))
+
+;;; still some problems with these programs not displaying ANY
+;;; output. The internal qp seems good enough
+(setq vm-mime-qp-decoder-program
+  (concat EMACS_PKGS "/bin/qp-decode.exe"))
+(setq vm-mime-qp-encoder-program
+  (concat EMACS_PKGS "/bin/qp-encode.exe"))
+
+;;;========================================================================
+;;; mime settings
+;;;========================================================================
+;;;; use w3m for rendering html (taken from w3m/attic and moved to w3m)
+;;(setq vm-mime-use-w3-for-text/html t)
+;(setq vm-mime-use-w3-for-text/html nil)
+;(setq vm-url-browser 'w3m)
+(load "vm-w3m")
+(setq vm-mime-renderer-for-text/html 'w3m)
+
+;; disable mule 
+(setq vm-xemacs-mule-p nil)
+(setq vm-fsfemacs-mule-p nil)
+
+;(setq w3m-input-coding-system 'utf-8
+;       w3m-output-coding-system 'utf-8)
+
+; VM will treat a message as MIME if it has a Content-Type
+; header even if the message lacks a MIME-Version header (nil).
+(setq vm-mime-require-mime-version-header nil)
+
+;=============
+; set all mime types for auto display (pop up a display automatically)
+;=============
+(setq vm-auto-displayed-mime-content-types t)
+
+; except the following, which will present a mime button instead
+(setq vm-auto-displayed-mime-content-type-exceptions
+  '(
+	"image"
+	"audio"
+	"video"
+	"application"
+;	"text/html"
+	))
+
+;=============
+; Use the Internal viewer automatically (t) (t is default)
+;=============
+(setq vm-mime-internal-content-types t)
+
+; except the following, which will present a mime button instead
+(setq vm-mime-internal-content-type-exceptions
+  '(
+	"image"
+	"audio"
+	"video"
+	"application"
+;	"text/html"
+	))
+
+;;; Show plain text over markup.
+;(setq mm-discouraged-alternatives
+;      (append mm-discouraged-alternatives '("text/html" "text/richtext")))
+;(setq gnus-article-wash-html nil)
+;(setq mm-inline-override-types '("text/html"))
+
+;;; shellex works nicely here by launching the associated app
+;;; automatically. It also has the added benefit of using existing
+;;; instances where possible! The SHELLEX variable was set in .emacs
+(setq vm-mime-external-content-types-alist
+ `(
+	 ("image"       "cmd" "/c" ,SHELLEX "%f")
+	 ("application" "cmd" "/c" ,SHELLEX "%f")
+	 ("audio"       "cmd" "/c" ,SHELLEX "%f")
+	 ("video"       "cmd" "/c" ,SHELLEX "%f")
+	 ("text/html"   "cmd" "/c" ,SHELLEX "%f")
+  )
+)
+
+;;; various mime settings
+(setq
+  vm-honor-mime-content-disposition    nil
+  vm-infer-mime-types                  t
+  vm-mime-8bit-text-transfer-encoding  '8bit
+;  vm-mime-8bit-text-transfer-encoding  'base64
+;  vm-mime-8bit-text-transfer-encoding  'quoted-printable
+  vm-mime-attachment-save-directory    (concat HOME_DIR "/download/")
+  vm-toolbar-pixmap-directory          (concat EMACS_PKGS "/vm-8.0.10-575/pixmaps")
+  vm-image-directory                   (concat EMACS_PKGS "/vm-8.0.10-575/pixmaps")
+  vm-mime-delete-after-saving          nil
+  vm-mime-delete-viewer-processes      nil
+  vm-mime-digest-discard-header-regexp nil
+  vm-mime-display-function             nil
+  vm-mime-ignore-mime-version          t
+  vm-mime-max-message-size             nil
+  vm-send-using-mime                   t
+)
+
+;;;==============================
+;;; set the format of the mime button label within a message
+;;;==============================
+(setq vm-mime-button-format-alist
+      '(("text" . "%f (%d, %c) [%a]")
+        ("multipart/alternative" . "%-20.20(%d) [%a]")
+        ("multipart/digest" . "%-20.20(%d, %n message%s) [%a]")
+        ("multipart" . "%-20.20(%d, %n part%s) [%a]")
+        ("message/partial" . "%-20.20(%d, part %N (of %T)) [%a]")
+        ("message/external-body" . "%-20.20(%d, %f) [%a (%x)]")
+        ("message" . "%-20.20(%d) [%a]")
+        ("audio" . " %f (%d) [%a]")
+        ("video" . " %f (%d) [%a]")
+        ("image" . " %f (%d) [%a]")
+;        ("application/octet-stream" . "%-20.20(%d, %f) [%a]")
+        ("application" . " %f (%d) [%a]")))
+
+;Supported charsets (t) for all charsets
+(setq vm-mime-default-face-charsets t)
+(setq vm-mime-default-face-charset-exceptions nil)
+
+(setq  vm-mime-attachment-auto-type-alist
+ '(
+   ("\\.htm?l$" . "text/html")
+   ("\\.bmp$"   . "image/bmp")
+   ("\\.gif$"   . "image/gif")
+   ("\\.jpe?g$" . "image/jpeg")
+   ("\\.pcx$  " . "image/pcx")
+   ("\\.png$"   . "image/png")
+   ("\\.tiff?$" . "image/tiff")
+   ("\\.au$"    . "audio/basic")
+   ("\\.wav$"   . "audio/wav")
+   ("\\.mpe?g$" . "video/mpeg")
+   ("\\.url$"   . "application/url")
+   ("\\.ps$"    . "application/postscript")
+   ("\\.pdf$"   . "application/pdf")
+   ("\\.zip$"   . "application/zip")
+   ("\\.gz$"    . "application/zip")
+   ("\\.tar$"   . "application/zip")
+   ("\\.xls$"   . "application/vnd.ms-excel")
+   ("\\.dot$"   . "application/vnd.msword")
+   ("\\.doc?x$" . "application/vnd.msword")
+   ("\\.rtf$"   . "application/vnd.msword")
+   ("\\.ppt$"   . "application/vnd.ms-powerpnt")
+   ("\\.pps$"   . "application/vnd.ms-powerpnt")
+   ("\\.ts$"    . "application/ln.timesheet")
+  )
+)
+
+;;; use the internal w32-shell-execute method to launch a browser on
+;;; links within a message
+(defun vm-shell-execute (URL)
+  "Send the specified URL to the default system handler using ShellExecute"
+  (w32-shell-execute "open" URL))
+(setq vm-url-browser 'vm-shell-execute)
+
+;;;========================================================================
+;;; folder settings
+;;;========================================================================
+;; set the default folder to which messages should be save by evaluating the
+;; message header
+(setq vm-auto-folder-alist
+ '(("SUBJECT"
+    ("h-e-w"         . "emacs")
+    ("Orgmode"         . "org-mode")
+    ("dynascope"       . "astronomy")
+    ("cinjug-users"    . "cinjug")
+    ("\*\*SPAM\*\*"    . "spam"))
+   ("TO"
+    ("ntemacs"         . "emacs"))
+   ("FROM"
+    ("cjsmith"         . "personal")
+    ("valeria"         . "personal")
+    ("crankybeach"     . "personal")
+    ("carolync"        . "personal")
+    ("ntemacs"         . "emacs")
+    ("javapro"         . "publications")
+    ("extremetech"     . "publications")
+    ("devx"            . "publications")
+    ("jdc tech"        . "publications")
+    ("chris.camacho"   . "navy")
+    ("cmcmahan"        . "navy")
+    ("crunyon"         . "navy")
+    ("kirby.miller"    . "navy")
+    ("richard.carrano" . "navy")
+    ("navair"          . "navy")
+    ("navy"            . "navy"))
+   ("cc"
+    ("ntemacs"         . "emacs"))
+   ("sender"
+    ("navy"            . "navy"))
+   ))
+
+;;;========================================================================
+;;; Configure virtual folders to organize messages
+;;;========================================================================
+(setq vm-virtual-folder-alist
+ '(
+   ("news_emacs"
+    (("com.emacs"
+      "gnu.emacs.bug"
+      "gnu.emacs.gnus"
+      "gnu.emacs.help"
+      "gnu.emacs.sources"
+      "gnu.emacs.vm.bug"
+      "gnu.emacs.vm.info")
+     (any)
+     ))
+
+   ("ntemacs"
+    (("mbox")
+     (subject "h-e-w")
+     ))
+
+   ("lists"
+    (
+     (subject "Orgmode")
+     (subject "dynascope")
+     (subject "cinjug-users")
+     (any)
+     ))
+
+   ("pubs"
+    (("mbox")
+     (author "astronomy")
+     (author "dell.com")
+     (author "devx")
+     (author "eweek")
+     (author "extremetech")
+     (author "hermes.sun.com")
+     (author "internet.com")
+     (author "java insight")
+     (author "javapro")
+     (author "jdc editorial")
+     (author "jdc tech")
+     (author "jroundup")
+     (author "klove")
+     (author "monster.com")
+     (author "nasa.gov")
+     (author "skyandtelescope")
+     (author "xml & web")
+     (author "zdnet")
+     (author "ziffdavis")
+     (author "whatsnewnow")
+     ))
+
+   ("personal"
+    (("mbox")
+     (author "carolyn")
+     (author "CComings")
+     (author "cjsmith")
+     (author "csmith")
+     (author "greg@wizardofoddparties.com")
+     (author "griffith")
+     (author "indy_dav")
+     (author "manley")
+     (author "rangerleia")
+     (author "roger_chance")
+     (author "valeria")
+     ))
+
+   ("navy"
+    (("mbox")
+     (author "mayhew") ;Thomas Mayhew
+     (author "cczman@insightbb.com") ;Chris Zimmerman
+     (author "quickcat@gmail.com") ;Matt Kiefer
+     (author "skbarrie@pacbell.net")
+     (author "joseph1918@aol.com")
+     (author "daniel.boscola@navy.mil")
+     (author "chris.camacho@ae.ge.com")
+     (author "Richard.Carrano@wpafb.af.mil") 
+     (author "rcarrano@woh.rr.com")
+     (author "carranorp@navair.navy.mil")
+     (author "deleonr@gao.gov")
+     (author "randydeleon33@hotmail.com")
+     (author "kay.a.griffiths@boeing.com")
+     (author "traceykeefe@cox.net")
+     (author "jkovasity@tdi-engines.com")
+     (author "robert.mark@navy.mil")
+     (author "pmartz14@charter.net")
+     (author "vsmckenny@verizon.net")
+     (author "Kirby.Miller2@ge.com")
+     (author "kmitchell73@comcast.net")
+     (author "jon_muscat@yahoo.com")
+     (author "sdnordel@raytheon.com")
+     (author "olsenpetere@mchsi.com")
+     (author "Peter.Olsen@navy.mil")
+     (author "crainey@fhlbi.com")
+     (author "chad.runyon@kettering.k12.oh.us")
+     (author "chud_@hotmail.com")
+     (author "runyon.6@wright.edu")
+     (author "joe_toth@wideopenwest.com")
+     (author "joe_toth@gap.com")
+     (author "navair.navy.mil")
+     (author "tollerene")
+     ))
+   ("spam"
+    (("mbox")
+     (subject "\*\*SPAM\*\*")
+     ))
+   ))
+
+
+;;;========================================================================
+;; Make VM restore the window configuration exactly as it was...
+;;;========================================================================
+(defvar db-vm-last-window-configuration nil)
+
+(defadvice vm (before win-cfg act)
+  (setq db-vm-last-window-configuration (current-window-configuration)))
+
+(defadvice vm-quit (after win-cfg act)
+  (when db-vm-last-window-configuration
+    (set-window-configuration db-vm-last-window-configuration)
+    (setq db-vm-last-window-configuration nil)))
+
+(defadvice vm-quit-just-bury (after win-cfg act)
+  (when db-vm-last-window-configuration
+    (set-window-configuration db-vm-last-window-configuration)
+    (setq db-vm-last-window-configuration nil)))
+
+
+;;;========================================================================
+;;; tab complete to fill in the name on messages
+;;; message-x allows the tab key to intelligently map to
+;;; auto-completion when in the message headers, and normal indent when
+;;; otherwise.
+;;;========================================================================
+(require 'message)
+
+(defun my-bbdb-tab-complete ()
+  (interactive)
+  (if (mail-abbrev-in-expansion-header-p)
+      (bbdb-complete-name)
+    (message-tab)))
+
+(define-key message-mode-map [tab] 'my-bbdb-tab-complete)
+(define-key vm-mail-mode-map [tab] 'my-bbdb-tab-complete)
+
+
+
+

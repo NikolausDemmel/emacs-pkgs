@@ -1,0 +1,13 @@
+.DS_Store
+.signature
+.signature.gnus
+.signatures
+bbdb/
+cedet-1.0pre7/
+ecb-2.40/
+egg/
+emacs-w3m/
+git-emacs/
+magit/
+org-mode/
+todochiku/
