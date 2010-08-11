@@ -1,2 +1,20 @@
 Emacs configuration files used on Mac OSX
 GNU Emacs 23.2.1
+
+Contents of the file ~/.emacs, which now just loads the file emacs.el
+(formerly known as ~/.emacs) so it can be placed into the git
+repository directory.
+
+----------------------------------------
+
+;;;_. -*-mode: emacs-lisp -*-
+;; set to t for debugging
+(setq debug-on-error nil)
+
+;;; =====================================================================
+;;; .emacs --- Emacs configuration file
+
+;;; load the actual configuration file, located in emacs-pkgs to
+;;; simplify version control
+(load-file "~/emacs-pkgs/emacs.el")  ; emacs configuration
+
