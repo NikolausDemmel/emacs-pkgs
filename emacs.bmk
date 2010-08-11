@@ -1,0 +1,55 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-capture-last-stored"
+ (filename . "~/org/journal.org")
+ (front-context-string . "** Paid USAA Mas")
+ (rear-context-string . " RipIt for DVDs\n")
+ (position . 339303))
+("links.gpg"
+ (filename . "~/archive/Programming/libs/links.gpg")
+ (front-context-string . "# -*- mode: org;")
+ (rear-context-string)
+ (position . 1))
+("N"
+ (filename . "~/Navy/Navy_2010/AT/CBM/CWRIIP Composite/composite_source.vba")
+ (front-context-string . "\" & Lastrow + 4)")
+ (rear-context-string . " \")\"\n   Range(\"O")
+ (position . 4735))
+("webjump"
+ (filename . "~/Emacs-pkgs/emacs-webjump.el")
+ (front-context-string . ";;;_.===========")
+ (rear-context-string)
+ (position . 1))
+("Win7_c"
+ (filename . "~/Documents/Parallels/Win7.pvm/Windows Disks/C/")
+ (front-context-string . ".DS_Store\n  drwx")
+ (rear-context-string . "48 Apr  2 16:54 ")
+ (position . 244))
+("reference"
+ (filename . "~/org/reference.org")
+ (front-context-string . "#+STARTUP: headi")
+ (rear-context-string)
+ (position . 1))
+("creditcards"
+ (filename . "~/org/creditcards.org.gpg")
+ (front-context-string . "Credit Card info")
+ (rear-context-string)
+ (position . 1))
+("journal"
+ (filename . "~/org/journal.org")
+ (front-context-string . "#+STARTUP: conte")
+ (rear-context-string)
+ (position . 1))
+("passwords"
+ (filename . "~/org/passwords.gpg")
+ (front-context-string . "# -*- mode: org;")
+ (rear-context-string)
+ (position . 1))
+("org-remember-last-stored"
+ (filename . "~/org/tasks.org")
+ (front-context-string . "** TODO Finalize")
+ (rear-context-string . "7-01 Thu 23:37]\n")
+ (position . 34749))
+)
