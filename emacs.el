@@ -86,10 +86,6 @@
         ;(font . "Bitstream_Vera_Sans_Mono 11")))
 
 (setq initial-frame-alist default-frame-alist)
-;                    '((top . 35) (left . 915)
-;                            (width . 115)))
-
-
 
 ;;Syntax highlighting, can we say yes please?
 (global-font-lock-mode t)
@@ -157,3 +153,4 @@
 ;;allout-layout: (-1 : 0)
 ;;End:
 
+(provide 'emacs)
