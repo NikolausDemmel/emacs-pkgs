@@ -131,12 +131,21 @@
 (require 'emacs-w3m)       ; w3m web browser settings
 
 
-;; =====================================================================
+;;; =====================================================================
 ;; tell OS-X to raise the emacs frame on launching
-(defun ns-raise-emacs ()
-  (ns-do-applescript "tell application \"Emacs\" to activate"))
+;; Or else you can use the OS-X 'open' command when launching emacs. 
+;; When doing this, reference the emacs.app, not the executable itself
+;; Sample .tcshrc alias entry is:
+;; alias emacs 'open /Applications/Emacs.app'
+;(defun ns-raise-emacs ()
+;  (ns-do-applescript "tell application \"Emacs\" to activate"))
+;
+;(ns-raise-emacs)
 
-(ns-raise-emacs)
+
+
+;; =====================================================================
+;; start the emacsserver that listens to emacsclient
 (server-start)
 
 ;; =====================================================================

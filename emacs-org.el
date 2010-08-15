@@ -211,6 +211,15 @@
     ad-do-it))
 (ad-activate 'org-agenda-add-time-grid-maybe)
 
+;;;_.======================================================================
+;;;_. org-info export libraries
+
+;; add the following to the top of each org file to export
+;;  #+INFOJS_OPT: path:org-info.js
+;;  #+INFOJS_OPT: toc:nil localtoc:t view:info mouse:underline buttons:nil
+;;  #+INFOJS_OPT: up:http://orgmode.org/worg/
+;;  #+INFOJS_OPT: home:http://orgmode.org
+
 
 ;;;;_.======================================================================
 ;;;;_. Set up automatic reminders 
