@@ -28,13 +28,6 @@
     (message "format unchanged")))
 
 ;;;_*======================================================================
-;;;_* set the directory separator character
-(setq eol-mnemonic-dos "\\")
-(setq eol-mnemonic-unix "/")
-(setq eol-mnemonic-mac ":")
-(setq eol-mnemonic-undecided "?")
-
-;;;_*======================================================================
 ;;;_* convert a string of 3 decimal numbers to hex and place the result
 ;;;_* into the kill ring for pasting
 (defun d2h (red green blue)
@@ -1154,23 +1147,10 @@ MFile: ")
   (interactive)
   (find-file-other-frame (concat planner-directory "/EmacsGnusCommands.muse")))
 
-;;load the video in firefox and save the video name to the clipboard
-;;| videoname | url |
+;;load the page in firefox and save the file name to the clipboard
+;;| filename | url |
 (fset 'loadvideo
    [?\C-a tab tab ?\C-  ?\C-s ?| ?\M-b ?\M-f ?\M-w tab ?\M-x ?f ?x return return ?\C-a])
-
-;(fset 'loadvideo
-;   [?\C-a ?\M-f ?\M-b ?\C-  ?\C-s ?| ?\M-b ?\M-f ?\M-w tab ?\M-x ?f ?x return return ?\C-a ?- ?\C-a])
-
-(fset 'tube8
-   [?\C-a tab tab ?\C-y ?\M-b ?\C-b ?\C-  ?\C-r ?/ ?\C-f ?\M-w ?\C-a tab ?\C-y ?\C-  ?\C-a ?\M-x ?c ?a ?p ?i ?t ?a ?l ?i ?z ?e ?- ?r ?e ?g ?i ?o ?n return ?\C-  ?\C-s ?| ?\C-s ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?s ?t ?r ?i ?n ?g return ?- return ?  return ?\C-c ?\C-c return])
-
-(fset 'youprn
-   [tab ?\C-a tab tab ?\C-y ?\C-b ?\C-  ?\C-r ?/ ?\C-f ?\M-w ?\C-a tab ?\C-y ?\C-  ?\C-a ?\M-x ?c ?a ?p ?i ?t ?a ?l ?i ?z ?e ?- ?r ?e ?g ?i ?o ?n return ?\C-  ?\C-s ?| ?\C-s ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?s ?t ?r ?i ?n ?g return ?- return ?  return ?\C-a ?\C-f return])
-
-(fset 'xvid
-   [tab ?\C-a tab tab ?\C-y ?\C-b ?\C-  ?\C-r ?/ ?\C-f ?\M-w ?\C-a tab ?\C-y ?\C-  ?\C-a ?\M-x ?c ?a ?p ?i ?t ?a ?l ?i ?z ?e ?- ?r ?e ?g ?i ?o ?n return ?\C-  ?\C-s ?| ?\C-s ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?s ?t ?r ?i ?n ?g return ?- return ?  return ?\C-a ?\C-f return])
-
 
 (provide 'emacs-macros)
 

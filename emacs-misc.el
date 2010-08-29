@@ -93,13 +93,6 @@
       delete-old-versions t    ; Delete excess backup versions
       backup-by-copying t)
 
-;;;_.======================================================================
-;;;_. set the encoding characters displayed in the modeline
-(setq eol-mnemonic-dos ?\\
-      eol-mnemonic-unix ?/
-      eol-mnemonic-mac ?:
-      eol-mnemonic-undecided ??)
-
 ;;;;_.======================================================================
 ;;;;_. crontab mode
 ;;; edit and automatically apply changes to the crontab file
@@ -118,6 +111,13 @@
 
 ;;;_.======================================================================
 ;;;_. modeline modifications
+
+;; set the encoding characters displayed in the modeline
+(setq eol-mnemonic-dos ?\\
+      eol-mnemonic-unix ?/
+      eol-mnemonic-mac ?:
+      eol-mnemonic-undecided ??)
+
 ;; first turn on column line mode
 ;(setq column-number-mode nil)
 

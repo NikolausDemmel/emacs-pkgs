@@ -95,7 +95,7 @@
        (concat HOME_DIR "/org/journal.org")
        (concat HOME_DIR "/org/passwords.gpg")
        (concat HOME_DIR "/org/reference.org")
-       (concat HOME_DIR "/org/xetron.org")))
+       (concat HOME_DIR "/org/Xetron.org")))
 
 ;;;_.============================================================
 ;;;_. Set up the keys
