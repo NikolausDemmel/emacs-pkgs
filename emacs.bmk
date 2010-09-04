@@ -4,9 +4,9 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
  (filename . "~/org/journal.org")
- (front-context-string . "** TODO Complete")
- (rear-context-string . "srael1@navy.mil\n")
- (position . 286722))
+ (front-context-string . "** Filed for OU ")
+ (rear-context-string . "[Paul McMahan]]\n")
+ (position . 167169))
 ("links.gpg"
  (filename . "~/archive/Programming/libs/links.gpg")
  (front-context-string . "# -*- mode: org;")
@@ -30,6 +30,11 @@
 ("reference"
  (filename . "~/org/reference.org")
  (front-context-string . "#+STARTUP: headi")
+ (rear-context-string)
+ (position . 1))
+("creditcards"
+ (filename . "~/org/creditcards.org.gpg")
+ (front-context-string . "Credit Card info")
  (rear-context-string)
  (position . 1))
 ("journal"
