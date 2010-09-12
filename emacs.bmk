@@ -4,9 +4,9 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
  (filename . "~/org/journal.org")
- (front-context-string . "** Filed for OU ")
- (rear-context-string . "[Paul McMahan]]\n")
- (position . 167169))
+ (front-context-string . "** Appt Meet wit")
+ (rear-context-string . "   the 4 weeks.\n")
+ (position . 343232))
 ("links.gpg"
  (filename . "~/archive/Programming/libs/links.gpg")
  (front-context-string . "# -*- mode: org;")

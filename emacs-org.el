@@ -59,7 +59,7 @@
          "* Transferred Money %T\n     From: %^{Transferred From:|NFCU Svgs|NFCU Chk|Fifth-Third Chk}\n       To: %^{To:|NFCU Chkg|NFCU Svgs|Fifth-Third Chk}\n   Amount: $%^{Amount $}\n  Confirm: %^{Confirmation #}\n")
         ("p" "Password" entry
          (file+olp "~/org/passwords.gpg" "Passwords")
-         "* %^{Title}\n  :PROPERTIES:\n  :Location: %^{Location}p\n  :User:     %^{User}p\n  :Password: %^{Password}p\n  :Email:    %^{Email}p\n  :Category: %^{Category}p\n  :Update:  %u\n  :Notes:    %^{Notes}p\n  :END:\n")))
+         "* %^{Title}\n  :PROPERTIES:\n  :Update:   %u\n  :Url:      %^{Url}p\n  :Username: %^{Username}p\n  :Password: %^{Password}p\n  :Notes:    %^{Notes}p\n  :END:\n")))
 
 ;;;_.============================================================
 ;;;_. various settings
