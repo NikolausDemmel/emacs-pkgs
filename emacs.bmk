@@ -3,10 +3,10 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
- (filename . "~/org/journal.org")
- (front-context-string . "** Appt Meet wit")
- (rear-context-string . "   the 4 weeks.\n")
- (position . 343232))
+ (filename . "~/org/passwords.gpg")
+ (front-context-string . "** test\n   :PROP")
+ (rear-context-string . "s:    \n   :END:\n")
+ (position . 116453))
 ("links.gpg"
  (filename . "~/archive/Programming/libs/links.gpg")
  (front-context-string . "# -*- mode: org;")
