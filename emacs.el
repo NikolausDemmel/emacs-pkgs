@@ -81,7 +81,10 @@
         (width . 230) (height . 85)
         (cursor-color . "yellow")
         (cursor-type . box)
-        (font . "Menlo 12")))
+;        (font . "Bitstream Vera Sans-12")))
+;        (font . "Consolas 12")))
+;        (font . "Menlo 12")))
+        (font . "Consolas 12")))
 
 (setq initial-frame-alist default-frame-alist)
 
