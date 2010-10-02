@@ -562,7 +562,7 @@ This works for links created by w3-region and/or by w3m-region."
        (if (getUrl)
            (car (browse-url-interactive-arg "URL: "))
          (read-string "URL: "))))
-    
+
     ; use url provided
     (shell-command (concat "/usr/bin/open -a " browser " " url))))
 
@@ -582,8 +582,8 @@ destination"
   (if (or (string= url "") (null url))
       ; get url from prompt (with default if possible)
       (shell-command (concat "/usr/bin/open -a " browser " --args "
-       (read-string 
-        (if (getUrl) 
+       (read-string
+        (if (getUrl)
             (format "URL (%s): " (getUrl))
           "URL: ")
         nil nil (getUrl))))
@@ -733,7 +733,7 @@ Switches control these tab
   "Launch the Windows system control panel applet"
   (interactive)
   (w32-shell-execute "open" "control.exe" "sysdm.cpl"))
-  
+
 ;;;_*======================================================================
 ;;;_* Remote desktop shortcuts
 (defvar rdp_directory "c:/remote_machines/"
@@ -781,7 +781,7 @@ optional console_switch sets the remote desktop into console mode"
   (if (null console_switch)
       (w32-shell-execute "open" "c:/windows/system32/mstsc.exe" target_machine  1)
     (w32-shell-execute "open" "c:/windows/system32/mstsc.exe" (concat target_machine " /console") 1)))
-  
+
 (defun rcmd (alias)
   "Launch a cmd shell from a remote machine using the psexec command"
    (interactive
@@ -1103,6 +1103,17 @@ following keybindings are in effect within this buffer
 (fset 'article
    "\C-aArticle is <a href=\"\C-e\">here</a>.")
 
+;;;_*======================================================================
+(defun replace-smart-quotes (beg end)
+  "Replace the curly smart quotes with ASCII versions"
+  (interactive "r")
+  (save-excursion
+    (format-replace-strings
+     '(("\x201c" . "\"")
+       ("\x201d" . "\"")
+       ("\x2018" . "'")
+       ("\x2019" . "'"))
+     nil beg end)))
 
 ;;;_*======================================================================
 ;;;_* "Unfill" a paragraph by converting to a single line
@@ -1125,7 +1136,7 @@ paragraphs in the current region into long lines."
 (defun cm-find-dired (directory filename)
   "Change shell to cmdproxy, execute the find-name-dired command
   and return to the previous shell value"
- (interactive "MDirectory: 
+ (interactive "MDirectory:
 MFile: ")
  (let ((current-shell
   shell-file-name))

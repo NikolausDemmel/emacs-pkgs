@@ -160,6 +160,35 @@
 (setq org-export-creator-info t)
 
 ;;;_.============================================================
+;;;_. Publishing options
+     (setq org-publish-project-alist
+           '(("orgfiles"
+               :base-directory "~/org/"
+               :base-extension "org"
+               :publishing-directory "~/public_html"
+               :publishing-function org-publish-org-to-html
+               :exclude "PrivatePage.org"   ;; regexp
+               :headline-levels 3
+               :section-numbers nil
+               :table-of-contents nil
+               :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/stylesheet.css\" />"
+               :auto-preamble t
+               :auto-postamble nil)
+
+              ("css"
+               :base-directory "~/org/css/"
+               :base-extension "css\\|el"
+               :publishing-directory "~/public_html/css"
+               :publishing-function org-publish-attachment)
+
+              ("data"
+               :base-directory "~/org/data/"
+               :publishing-directory "~/public_html/data"
+               :publishing-function org-publish-attachment)
+
+              ("website" :components ("orgfiles" "css" "data"))))
+
+;;;_.============================================================
 ;;;_. integrate Mobile Org using Dropbox
 ;; After capturing notes or making changes on the device to your Org
 ;; files, be sure to sync in MobileOrg. Then run org-mobile-pull from

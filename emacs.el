@@ -2,8 +2,6 @@
 ;; set to t for debugging
 (setq debug-on-error nil)
 
-
-
 (auto-raise-mode 1)
 ;;;_. =====================================================================
 ;;;_. .emacs --- Emacs configuration file
@@ -83,8 +81,9 @@
         (cursor-type . box)
 ;        (font . "Bitstream Vera Sans-12")))
 ;        (font . "Consolas 12")))
-;        (font . "Menlo 12")))
-        (font . "Consolas 12")))
+;        (font . "Consolas 14")))
+        (font . "Menlo 12")))
+
 
 (setq initial-frame-alist default-frame-alist)
 
@@ -116,6 +115,7 @@
 
 ;;;_. =====================================================================
 ;;;_. load the customize configurations files
+(require 'emacs-abbrev)    ; abbrev mode definitions
 (require 'emacs-bm)        ; bookmark enhancements
 (require 'emacs-calendar)  ; calendar settings
 (require 'emacs-bbdb)      ; big-brother database
