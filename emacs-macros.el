@@ -1132,6 +1132,20 @@ paragraphs in the current region into long lines."
     (fill-region (point) (mark))))
 
 ;;;_*======================================================================
+;;;_* "Replace the curly smart quotes with ASCII versions"
+
+(defun replace-smart-quotes (beg end)
+  "Replace the curly smart quotes with ASCII versions"
+  (interactive "r")
+  (save-excursion
+    (format-replace-strings
+     '(("\x201c" . "\"")
+       ("\x201d" . "\"")
+       ("\x2018" . "'")
+       ("\x2019" . "'"))
+     nil beg end)))
+
+;;;_*======================================================================
 ;;;_* various find commands
 (defun cm-find-dired (directory filename)
   "Change shell to cmdproxy, execute the find-name-dired command
