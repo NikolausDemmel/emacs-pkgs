@@ -90,10 +90,10 @@
 ;;;_. Set up org files
 (setq org-agenda-files 
       (list 
-       (concat HOME_DIR "/org/PEO(A).gpg")
+       ;(concat HOME_DIR "/org/PEO(A).gpg")
        (concat HOME_DIR "/org/fun.org")
        (concat HOME_DIR "/org/journal.org")
-       (concat HOME_DIR "/org/passwords.gpg")
+       ;(concat HOME_DIR "/org/passwords.gpg")
        (concat HOME_DIR "/org/reference.org")
        (concat HOME_DIR "/org/Xetron.org")))
 
@@ -159,34 +159,56 @@
 ;; org-mode xxx in emacs xxx"
 (setq org-export-creator-info t)
 
-;;;_.============================================================
-;;;_. Publishing options
-     (setq org-publish-project-alist
-           '(("orgfiles"
-               :base-directory "~/org/"
-               :base-extension "org"
-               :publishing-directory "~/public_html"
-               :publishing-function org-publish-org-to-html
-               :exclude "PrivatePage.org"   ;; regexp
-               :headline-levels 3
-               :section-numbers nil
-               :table-of-contents nil
-               :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/stylesheet.css\" />"
-               :auto-preamble t
-               :auto-postamble nil)
+(setq org-export-exclude-tags (quote ("noexport" "ARCHIVE")))
 
-              ("css"
-               :base-directory "~/org/css/"
-               :base-extension "css\\|el"
-               :publishing-directory "~/public_html/css"
-               :publishing-function org-publish-attachment)
+;;;;_.============================================================
+;;;;_. Publishing options
 
-              ("data"
-               :base-directory "~/org/data/"
-               :publishing-directory "~/public_html/data"
-               :publishing-function org-publish-attachment)
+(setq org-publish-project-alist
+      '(("org"
+         :base-directory "~/org/"
+         :publishing-directory "~/public_html"
+         :section-numbers nil
+         :table-of-contents nil
+         :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/org.css\" />"
+         :headline-levels 1
+         :section-numbers nil
+         :table-of-contents nil
+         :auto-preamble t
+         :footnotes nil
+         :sub-superscript nil
+         :auto-postamble nil)))
 
-              ("website" :components ("orgfiles" "css" "data"))))
+
+;     (setq org-publish-project-alist
+;           '(("orgfiles"
+;               :base-directory "~/org/"
+;               :base-extension "org"
+;               :publishing-directory "~/public_html"
+;               :publishing-function org-publish-org-to-html
+;               :headline-levels 3
+;               :section-numbers nil
+;               :table-of-contents nil
+;               :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/stylesheet.css\" />"
+;               :auto-preamble t
+;               :footnotes nil
+;               :sub-superscript nil
+;               :auto-postamble nil)
+;
+;              ("css"
+;               :base-directory "~/org/css/"
+;               :base-extension "css\\|el"
+;               :publishing-directory "~/public_html/css"
+;               :publishing-function org-publish-attachment)
+;
+;              ("data"
+;               :base-directory "~/org/data/"
+;               :publishing-directory "~/public_html/data"
+;               :publishing-function org-publish-attachment)
+;
+;              ("website"
+;               :components ("orgfiles" "css" "data")
+;               )))
 
 ;;;_.============================================================
 ;;;_. integrate Mobile Org using Dropbox

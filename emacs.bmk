@@ -4,9 +4,9 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
  (filename . "~/org/journal.org")
- (front-context-string . "** TODO Update O")
- (rear-context-string . "26 Sun 10:04>]]\n")
- (position . 307346))
+ (front-context-string . "** Google API Ke")
+ (rear-context-string . "C     |       |\n")
+ (position . 187256))
 ("links.gpg"
  (filename . "~/archive/Programming/libs/links.gpg")
  (front-context-string . "# -*- mode: org;")
